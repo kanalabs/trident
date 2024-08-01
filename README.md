@@ -74,14 +74,3 @@ max_per_second = 15
 
 Trident is licensed under MIT 
 
-# Deployment Instructions
-
-After merge to main branch
-
-Navigate to Actions
-
-Select Deploy to Amazon EKS .
-
-Click on Run Workflow Button in right corner
-
-Select Env and Run
