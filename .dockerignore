@@ -1,0 +1,5 @@
+/target
+/.venv
+/trident-cache
+/benchmarks.txt
+/.DS_Store

@@ -1,0 +1,32 @@
+# Config for trident goes here
+[trident]
+# Where to bind trident to
+address = "0.0.0.0:3001"
+# Moving average length for the latency
+ma_length = 100
+# Sort RPCs by latency on startup. Recommended to leave on.
+sort_on_startup = true
+# Enable health checking
+health_check = true
+# Acceptable time to wait for a response in ms
+ttl = 60000
+# How many times to retry a request before giving up
+max_retries = 32
+# Time between health checks in ms
+health_check_ttl = 15000
+
+
+[public]
+url = "https://api.mainnet.aptoslabs.com"
+# The maximum amount of time we can use this rpc in a row.
+max_consecutive = 15
+# Max amount of queries per second.
+max_per_second = 15
+
+
+[AnkrPublic]
+url = "https://rpc.ankr.com/http/aptos"
+# The maximum amount of time we can use this rpc in a row.
+max_consecutive = 15
+# Max amount of queries per second.
+max_per_second = 15

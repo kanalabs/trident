@@ -1,0 +1,9 @@
+/target
+/.venv
+/trident-cache*
+/benchmarks.txt
+/config.toml
+!example.config.toml
+/.DS_Store
+/.env
+/default.sled

@@ -1,0 +1,64 @@
+[package]
+name = "trident"
+version = "0.1.0"
+edition = "2021"
+authors = ["mohan <mohan@kanalabs.io>, kanalabs"]
+license-file = "LICENSE"
+description = "Light weight load balancer for aptos rpc's"
+readme = "README.md"
+
+[dependencies]
+clap = "4.3.0"
+hyper = { version = "1.0.1", features = ["full"] }
+http-body-util = "0.1.0-rc.3"
+reqwest = { version = "0.11.18", features = ["blocking", "json"] }
+serde = { version = "1.0.163", features = ["derive"] }
+serde_json = "1.0.96"
+sled = { version = "0.34.7", features = ["compression"] }
+tokio = { version = "1.28.1", features = ["sync", "net", "rt-multi-thread", "macros"] }
+url = "2.4.0"
+blake3 = "1.4.1"
+jemallocator = "0.5.4"
+toml = "0.7.6"
+memchr = "2.5.0"
+rand = { version = "0.8.5" }
+chrono = "0.4.28"
+tokio-stream = {version = "0.1.14", features = ["sync"]}
+hyper-util-blutgang = { version = "0.2.0", features = ["tokio"] }
+simd-json = { version = "0.12.0", features = ["serde_impl"] }
+xxhash-rust = { version = "0.8.7", features = ["xxh3", "const_xxh3"], optional = true }
+zerocopy = { version = "0.7.20", features = ["simd", "alloc"] }
+zerocopy-derive = "0.7.28"
+jsonwebtoken = "9.1.0"
+hyper-tungstenite = "0.12.0"
+futures = "0.3.29"
+tungstenite = "0.20.1"
+tokio-tungstenite = { version = "0.20.1", features = ["native-tls"] }
+futures-util = "0.3.29"
+systemd = { version = "0.10.0", optional = true }
+anyhow = "1.0.86"
+bytes = "1.6.1"
+hyper-util = { version = "0.1", features = ["full"] }
+hyper-tls = "0.6"
+http = "1.1.0"
+
+# Maxperf profile for absolute maximum performance
+# Only use for builds that are going to get used by end users
+[profile.maxperf]
+inherits = "release"
+lto = "fat"
+codegen-units = 1
+incremental = false
+
+# Optional trident features
+[features]
+journald = ["systemd"]
+default = ["selection-weighed-round-robin"]
+xxhash = ["xxhash-rust"] # 4x faster hashing but potentially less secure
+no-cache = [] # enable this to disable caching
+debug-verbose = [] # Verbose terminal debug output
+selection-weighed-round-robin = [] # default algo
+selection-random = [] # optional random algo
+old-weighted-round-robin = [] # old algo, does not account for max per second
+systemd = ["dep:systemd"]
+# add your own below
