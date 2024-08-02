@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y openssl ca-certificates
 # Copy the built binary from the build stage
 COPY --from=build /app/target/maxperf/trident /app/trident
 
-COPY --from=build /app/example.config.toml /app/example.config.toml
+COPY --from=build /app/default.config.toml /app/default.config.toml
 
 
 # Copy the spin script

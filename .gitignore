@@ -3,7 +3,7 @@
 /trident-cache*
 /benchmarks.txt
 /config.toml
-!example.config.toml
+!default.config.toml
 /.DS_Store
 /.env
 /default.sled

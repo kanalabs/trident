@@ -3,3 +3,4 @@
 /trident-cache
 /benchmarks.txt
 /.DS_Store
+.gitignore
