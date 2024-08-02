@@ -20,7 +20,7 @@ cargo run --release -- -c config.toml
 cargo watch -x 'run --release -- -c config.toml'
 ```
 
-# Run with Docker 
+# Using Docker (LOCAL)
 
 NOTE : By default example.config.json is used as config file , to use custom configurations mount the config file while running docker
 
@@ -29,6 +29,14 @@ docker build -t trident .
 docker run -d --name trident_container -p 3001:3001 -v ./config.toml:/app/config.toml trident
 
 ```
+
+# Using Docker (DOCKER HUB)
+
+```
+docker pull kanalabs/trident:latest
+docker run -d --name trident_container -p 3001:3001 -v path/to/config.toml:/app/config.toml kanalabs/trident:latest
+```
+
 
 # 
 
