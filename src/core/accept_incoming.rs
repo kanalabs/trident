@@ -21,9 +21,6 @@ use tokio::time::timeout;
 pub struct ConnectionParams {
     pub rpc_list_rwlock: Arc<RwLock<Vec<Rpc>>>,
     pub channels: RequestChannels,
-    // pub head_cache: Arc<RwLock<BTreeMap<u64, Vec<String>>>>,
-    // pub sub_data: Arc<SubscriptionData>,
-    // pub cache: Db,
     pub config: Arc<RwLock<Settings>>,
 }
 
@@ -74,7 +71,6 @@ macro_rules! accept {
     ) => {
         // Bind the incoming connection to our service
         if let Err(err) = http1::Builder::new()
-            // `service_fn` converts our function in a `Service`
             .serve_connection(
                 $io,
                 service_fn(|req| {
@@ -90,7 +86,6 @@ macro_rules! accept {
     };
 }
 
-/// Macro for getting responses from either the cache or RPC nodes
 macro_rules! get_response {
     (
         $cache:expr,

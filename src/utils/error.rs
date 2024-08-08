@@ -1,4 +1,3 @@
-//! Health errors
 
 use std::error::Error;
 
