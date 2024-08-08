@@ -92,8 +92,6 @@ impl Settings {
     async fn create_from_file(conf_file: String) -> Settings {
         let parsed_toml = conf_file.parse::<Value>().expect("Error parsing TOML");
 
-        // `is_ws` flag is used to turn off WS specific things when a WS endpoint isnt present.
-
         let table_names: Vec<&String> = parsed_toml.as_table().unwrap().keys().collect::<Vec<_>>();
 
         // Parse the `trident` table

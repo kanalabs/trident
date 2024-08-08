@@ -1,4 +1,3 @@
-//! Configuration errors
 
 use crate::utils::error::RpcError;
 use std::error::Error;

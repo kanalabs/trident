@@ -1,5 +1,3 @@
-//! Due to how schizophrenic hyper is, we're defining our http errors like this.
-//! ???
 
 #[macro_export]
 macro_rules! no_rpc_available {
