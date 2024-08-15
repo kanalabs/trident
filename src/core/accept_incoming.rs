@@ -140,7 +140,7 @@ macro_rules! fetch_from_rpc {
                 (rpc, $rpc_position) = pick(&mut rpc_list);
             }
             rpc_name = rpc.name.clone();
-            log_info!("Forwarding to: {}", rpc_name);
+            // log_info!("Forwarding to: {}", rpc_name);
             // Check if we have any RPCs in the list, if not return error
             if $rpc_position == None {
                 return (no_rpc_available!(), None);
@@ -270,7 +270,7 @@ pub async fn accept_request(
     )
     .await;
     let time = time.elapsed();
-    log_info!("Request time: {:?}", time);
+    // log_info!("Request time: {:?}", time);
 
     // `rpc_position` is an Option<> that either contains the index of the RPC
     // we forwarded our request to, or is None if the result was cached.
