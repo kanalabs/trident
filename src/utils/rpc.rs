@@ -29,7 +29,6 @@ pub struct Status {
     // pub throughput: f64,
 }
 
-
 #[derive(Debug, Clone)]
 pub struct Rpc {
     pub name: String,           // sanitized name for appearing in logs
@@ -127,7 +126,7 @@ impl Rpc {
         } else {
             format!("{}{}?{}", &self.url, path, query)
         };
-        println!("Received Request {:?}", url);
+        // println!("Received Request {:?}", url);
 
         // Create a new Hyper client
         let https = HttpsConnector::new();
@@ -162,7 +161,6 @@ impl Rpc {
     pub async fn send_request_aptos_health(&self) -> Result<String, crate::utils::error::RpcError> {
         send_health_request(self.url.clone(), self.client.clone()).await
     }
-
 
     /// Returns the sync status. False if we're synced and following the head.
     pub async fn syncing(&self) -> Result<bool, crate::utils::error::RpcError> {

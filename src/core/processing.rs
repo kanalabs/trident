@@ -48,6 +48,6 @@ pub fn update_rpc_latency(rpc_list: &Arc<RwLock<Vec<Rpc>>>, rpc_position: usize,
         };
         rpc_list_guard[index].update_latency(time.as_nanos() as f64);
         rpc_list_guard[index].last_used = time.as_micros();
-        println!("LA {}", rpc_list_guard[index].status.latency);
+        // println!("LA {}", rpc_list_guard[index].status.latency);
     }
 }

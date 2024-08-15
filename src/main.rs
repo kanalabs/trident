@@ -1,17 +1,18 @@
 mod config;
-mod utils;
 mod core;
+mod utils;
 
 use crate::{
+    config::{cli_args::create_match, types::Settings},
     core::accept_incoming::{accept_request, ConnectionParams, RequestChannels},
-    config::{ cli_args::create_match, types::Settings},
     utils::check::health_check,
     utils::rpc::Rpc,
 };
 
-use std::
-    sync::{Arc, RwLock};
-
+use std::{
+    sync::{Arc, RwLock},
+    time::Duration,
+};
 
 use tokio::{net::TcpListener, sync::watch};
 
@@ -33,6 +34,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         (config_guard.address, config_guard.health_check)
     };
 
+    let rpc_poverty_list: Arc<RwLock<Vec<Rpc>>> =
+        Arc::new(RwLock::new(config.read().unwrap().poverty_list.clone()));
+
     // Make the list a rwlock
     let rpc_list_rwlock = Arc::new(RwLock::new(config.read().unwrap().rpc_list.clone()));
 
@@ -46,11 +50,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let finalized_rx_arc = Arc::new(finalized_rx.clone());
 
     if do_health_check {
-        let config_health = Arc::clone(&config);
         let rpc_list_health = Arc::clone(&rpc_list_rwlock);
+        let poverty_list_health = Arc::clone(&rpc_poverty_list);
+        let health_check_ttl = config.read().unwrap().health_check_ttl;
 
         tokio::task::spawn(async move {
-            let _ = health_check(rpc_list_health, &config_health).await;
+            loop {
+                let _ = health_check(
+                    Arc::clone(&rpc_list_health),
+                    Arc::clone(&poverty_list_health),
+                )
+                .await;
+                tokio::time::sleep(Duration::from_millis(health_check_ttl)).await;
+            }
         });
     }
 
@@ -58,7 +70,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     loop {
         let (stream, socketaddr) = listener.accept().await?;
         log_info!("Connection from: {}", socketaddr);
-
         // Use an adapter to access something implementing `tokio::io` traits as if they implement
         // `hyper::rt` IO traits.
         let io = TokioIo::new(stream);
