@@ -80,5 +80,5 @@ max_per_second = 15
 
 ## License
 
-please check [text](LICENSE)
+please check [LICENSE](LICENSE)
 
