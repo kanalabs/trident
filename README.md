@@ -80,5 +80,5 @@ max_per_second = 15
 
 ## License
 
-Trident is licensed under MIT 
+please check [text](LICENSE)
 
