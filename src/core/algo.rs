@@ -1,6 +1,7 @@
 use crate::Rpc;
 use std::time::SystemTime;
 
+
 // Generic entry point fn to select the next rpc and return its position
 pub fn pick(list: &mut [Rpc]) -> (Rpc, Option<usize>) {
     // If len is 1, return the only element
@@ -67,4 +68,3 @@ fn algo(list: &mut [Rpc]) -> (Rpc, Option<usize>) {
     list[choice].last_used = time;
     (list[choice].clone(), Some(choice))
 }
-

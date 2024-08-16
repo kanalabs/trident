@@ -1,8 +1,8 @@
 use crate::{
-    core::{processing::update_rpc_latency, algo::pick},
-    log_info, log_wrn, no_rpc_available,
+    core::{algo::pick, processing::update_rpc_latency},
+    log_info, no_rpc_available, timed_out,
     utils::rpc::Rpc,
-    timed_out, Settings,
+    Settings,
 };
 use futures::executor::block_on;
 use http::request::Parts;
@@ -10,7 +10,6 @@ use http_body_util::{BodyExt, Full};
 use hyper::{body::Bytes, Request};
 use std::{
     convert::Infallible,
-    println,
     sync::{Arc, RwLock},
     time::{Duration, Instant},
 };
@@ -141,7 +140,7 @@ macro_rules! fetch_from_rpc {
                 (rpc, $rpc_position) = pick(&mut rpc_list);
             }
             rpc_name = rpc.name.clone();
-            log_info!("Forwarding to: {}", rpc_name);
+            // log_info!("Forwarding to: {}", rpc_name);
             // Check if we have any RPCs in the list, if not return error
             if $rpc_position == None {
                 return (no_rpc_available!(), None);
@@ -156,22 +155,13 @@ macro_rules! fetch_from_rpc {
             )
             .await
             {
-             Ok(rxa) => {
-                match rxa {
-                    Ok(value) => {
-                        (rx,status) = value;
-                        break;
-                    },
-                    Err(e) => {
-                        log_wrn!("\x1b[93mWrn:\x1b[0m An RPC request in {} has failed : {}",rpc.name,e);
-                        log_wrn!("\x1b[93mWrn:\x1b[0m Picking new RPC and retrying.");
-                        rpc.update_latency($ttl as f64);
-                        retries += 1;
-                    }
-                }
+
+                Ok(rxa) => {
+                    let res = rxa.unwrap();
+                    (rx,status) = res;
+                    break;
                 },
                 Err(_) => {
-                    log_wrn!("\x1b[93mWrn:\x1b[0m An RPC request has timed out, picking new RPC and retrying.");
                     rpc.update_latency($ttl as f64);
                     retries += 1;
                 },
@@ -280,7 +270,7 @@ pub async fn accept_request(
     )
     .await;
     let time = time.elapsed();
-    log_info!("Request time: {:?}", time);
+    // log_info!("Request time: {:?}", time);
 
     // `rpc_position` is an Option<> that either contains the index of the RPC
     // we forwarded our request to, or is None if the result was cached.
