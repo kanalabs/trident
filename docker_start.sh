@@ -20,7 +20,7 @@ fi
 # Check if the custom config file exists
 if [ -f "$CUSTOM_CONFIG_PATH" ]; then
     echo "Custom config.toml found. Using custom configuration."
-    CONFIG_OPTION="-v $CUSTOM_CONFIG_PATH:/app/config.toml"
+    CONFIG_OPTION="-v $CUSTOM_CONFIG_PATH:/app/config/config.toml"
 else
     echo "Custom config.toml not found. Using default configuration."
     CONFIG_OPTION=""

@@ -26,7 +26,7 @@ NOTE : By default example.config.json is used as config file , to use custom con
 
 ```shell
 docker build -t trident .
-docker run -d --name trident_container -p 3001:3001 -v ./config.toml:/app/config.toml trident
+docker run -d --name trident_container -p 3001:3001 -v ./config.toml:/app/config/config.toml trident
 
 ```
 
@@ -34,7 +34,7 @@ docker run -d --name trident_container -p 3001:3001 -v ./config.toml:/app/config
 
 ```
 docker pull kanalabs/trident:latest
-docker run -d --name trident_container -p 3001:3001 -v path/to/config.toml:/app/config.toml kanalabs/trident:latest
+docker run -d --name trident_container -p 3001:3001 -v path/to/config.toml:/app/config/config.toml kanalabs/trident:latest
 ```
 
 
