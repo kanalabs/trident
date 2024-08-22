@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y openssl ca-certificates
 # Copy the built binary from the build stage
 COPY --from=build /app/target/maxperf/trident /app/trident
 
-COPY --from=build /app/default.config.toml /app/default.config.toml
+COPY --from=build /app/default.config.toml /app/config/default.config.toml
 
 
 # Copy the spin script
@@ -27,4 +27,5 @@ WORKDIR /app
 # Expose the application port
 EXPOSE 3001
 
-ENTRYPOINT ["sh", "spin.sh"]
+ENTRYPOINT ["/bin/sh", "/app/spin.sh"]
+
